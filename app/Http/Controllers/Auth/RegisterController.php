@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use function bcrypt;
+use function redirect;
+use function view;
 
 class RegisterController extends Controller
 {
@@ -40,34 +42,32 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
     }
-
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+    
+    public function confirmationCompte($id, $token){
+        $user = User::where('id', $id)->where('confirmation_token', $token)->first();
+        if($user){
+            return view('auth.register', compact('id', 'token'));
+        }else{
+            return redirect('/login');
+        }
+    }
+    
+    public function updatePassword(Request $request){
+        $data = $request->all();
+        $request->validate([
+                    'password' => 'required|min:8|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$@%]).*$/|confirmed|',
+                ]);
+        
+        $user = User::where('id', $data['id'])->where('confirmation_token', $data['confirmation_token'])->first();
+        if($user){
+            $user->update([
+                    'confirmation_token' => null,
+                    'password' => bcrypt($data['password']),
+                ]);
+            return redirect('/login')->with('success', 'Votre compte a bien été confirmé. Veillez vous connectez');
+        }else{
+                        
+        }
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
-     */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
-    }
 }

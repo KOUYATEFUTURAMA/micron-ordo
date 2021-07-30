@@ -53,27 +53,30 @@
 							<!--begin::Signin-->
 							<div class="login-form login-signin">
 								<!--begin::Form-->
-								<form class="form w-xxl-550px rounded-lg p-20" method="post" action="" novalidate="novalidate" id="kt_login_signin_form" style="background-color: #fff;">
-                                                                    @csrf
+								<form class="form w-xxl-550px rounded-lg p-20" method="post" action="{{ route('login') }}" novalidate="novalidate" id="kt_login_signin_form" style="background-color: #fff;">
+                                        @csrf
 									<!--begin::Title-->
 									<div class="pb-13 pt-lg-0 pt-5">
 										<h3 class="font-weight-bolder text-dark font-size-h4 font-size-h1-lg">Smart-Ordo</h3>
-                                                                                @if($errors->any())
-                                                                                <h4 style="color: red;">{{$errors->first()}}</h4>
-                                                                                @endif
 									</div>
 									<!--begin::Title-->
 									<!--begin::Form group-->
 									<div class="form-group">
 										<label class="font-size-h6 font-weight-bolder text-dark">E-mail</label>
-										<input class="form-control form-control-solid h-auto p-6 rounded-lg" type="email" value="{{ old('email') }}" name="email" required autocomplete="email" autofocus />
+										<input class="form-control form-control-solid h-auto p-6 rounded-lg" type="email" value="{{ old('email') }}" name="email" required autocomplete="email" autofocus/>
+										@error('email')
+											<h4 style="color: red;">{{ $message }}</h4>
+										@enderror
 									</div>
 									<!--end::Form group-->
 									<!--begin::Form group-->
 									<div class="form-group">
 										<label class="font-size-h6 font-weight-bolder text-dark pt-5">Mot de passe</label>
 										<input class="form-control form-control-solid h-auto p-6 rounded-lg" type="password" name="password" autocomplete="off" autocomplete="current-password" required/>
-                                                                        </div>
+										@error('password')
+											<h4 style="color: red;">{{ $message }}</h4>
+										@enderror
+                                    </div>
                                                                         <p style="text-align: right;">
                                                                             <a href="javascript:;" class="text-primary font-size-h6 font-weight-bolder text-hover-primary pt-5" id="kt_login_forgot">Mot de passe oubli&eacute;?</a>
                                                                         </p>
@@ -85,7 +88,7 @@
 										<br/>
 									<div class="font-size-h6 font-weight-bolder order-2 order-md-1 py-2 py-md-0">
 							<span class="text-muted font-weight-bold mr-2">Copyright &copy; 2021</span>
-							<a href="#" target="_blank" class="text-dark-50 text-hover-primary">GroupSmarty </a>, All rights reserved.
+							<a href="https://groupsmarty.com/" target="_blank" class="text-dark-50 text-hover-primary">GroupSmarty </a>, All rights reserved.
 						</div>
 									<!--end::Action-->
 								</form>
@@ -114,6 +117,10 @@
                                                                             <button type="submit" id="kt_login_forgot_submit" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-4">Envoyer</button>
 										<button type="button" id="kt_login_forgot_cancel" class="btn btn-light-primary font-weight-bolder font-size-h6 px-8 py-4 my-3">Annuler</button>
 									</div>
+									<div class="font-size-h6 font-weight-bolder order-2 order-md-1 py-2 py-md-0">
+							<span class="text-muted font-weight-bold mr-2">Copyright &copy; 2021</span>
+							<a href="https://groupsmarty.com/" target="_blank" class="text-dark-50 text-hover-primary">GroupSmarty </a>, All rights reserved.
+						</div>
 									<!--end::Form group-->
 								</form>
 								<!--end::Form-->

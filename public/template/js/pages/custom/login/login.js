@@ -28,14 +28,14 @@ var KTLogin = function() {
 					email: {
 						validators: {
 							notEmpty: {
-								message: 'Kullanıcı adı gerekli'
+								message: "L'adresse mail est obligatoire"
 							}
 						}
 					},
 					password: {
 						validators: {
 							notEmpty: {
-								message: 'Şifre gereklidir'
+								message: 'Le mot de passe est obligatoire'
 							}
 						}
 					}
@@ -206,10 +206,10 @@ var KTLogin = function() {
 					email: {
 						validators: {
 							notEmpty: {
-								message: 'E-posta adresi gerekli'
+								message: 'E-mail est obligatoire'
 							},
                             emailAddress: {
-								message: 'Değer geçerli bir e-posta adresi değil'
+								message: 'Saisissez une adresse mail'
 							}
 						}
 					}

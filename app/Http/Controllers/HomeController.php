@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +22,18 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $menuPrincipal = "Accueil";
+        $titleControlleur = "Tableau de bord";
+        $btnModalAjout = "FALSE";
+
+        if(Auth::user()->pharmacie_id==null && Auth::user()->hopital_id==null){
+            return view('admin-home', compact('menuPrincipal', 'titleControlleur', 'btnModalAjout'));
+        }
+        if(Auth::user()->pharmacie_id !=null){
+            return view('pharmacie-home', compact('menuPrincipal', 'titleControlleur', 'btnModalAjout'));
+        }
+        if(Auth::user()->hopital_id != null){
+            return view('hopital-home', compact('menuPrincipal', 'titleControlleur', 'btnModalAjout'));
+        }
     }
 }
