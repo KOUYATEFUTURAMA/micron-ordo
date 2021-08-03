@@ -23,6 +23,21 @@ Route::post('/update_password', 'Auth\RegisterController@updatePassword')->name(
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
+//les routes du module Parrametre 
+Route::namespace('Parametre')->middleware('auth')->name('parametre.')->prefix('parametre')->group(function () {
+    //Route resources
+    Route::resource('localites', 'LocaliteController');
+    Route::resource('categories', 'CategorieController');
+  
+    //Autres rooutes 
+    Route::get('sous-categorie', 'CategorieController@sousCategorie')->name('categories.sous-categorie');
+
+    //Route pour les listes dans boostrap table
+    Route::get('liste-localites', 'LocaliteController@listeLocalite')->name('liste-localites');
+    Route::get('liste-categories', 'CategorieController@listeCategorie')->name('liste-categories');
+    Route::get('liste-sous-categories', 'CategorieController@listeSousCategorie')->name('liste-sous-categories');
+});
+
 //les routes du module Auth 
 Route::namespace('Auth')->middleware('auth')->name('auth.')->prefix('auth')->group(function () {
     //Route resources

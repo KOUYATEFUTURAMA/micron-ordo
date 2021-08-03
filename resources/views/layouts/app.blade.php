@@ -116,6 +116,7 @@
                                         <span class="menu-text">Tableau de bord</span>
                                     </a>
                                 </li>
+                                @include('layouts.partials.partial_menus.menu_parametre')
                                 <li class="menu-item {{Route::currentRouteName() === 'auth.users.index' || Route::currentRouteName() === 'auth.user.profil' ? 'menu-item-active' : ''}}" aria-haspopup="true">
                                     <a href="{{route('auth.users.index')}}" class="menu-link">
                                         <span class="svg-icon menu-icon">
