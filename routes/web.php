@@ -19,6 +19,7 @@ Route::get('/', function () {
 
 Route::get('/confirmer_compte/{id}/{token}', 'Auth\RegisterController@confirmationCompte');
 Route::post('/update_password', 'Auth\RegisterController@updatePassword')->name('update_password');
+ Route::post('/password-reset', 'Auth\UserController@resetPassword')->name('user.password-reset');
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
@@ -28,11 +29,17 @@ Route::namespace('Parametre')->middleware('auth')->name('parametre.')->prefix('p
     //Route resources
     Route::resource('localites', 'LocaliteController');
     Route::resource('categories', 'CategorieController');
+    Route::resource('pharmacies', 'PharmacieController');
+    Route::resource('hopitals', 'HopitalController');
   
-    //Autres rooutes 
+    //Autres rooutes  pharmacies.update
     Route::get('sous-categorie', 'CategorieController@sousCategorie')->name('categories.sous-categorie');
+    Route::post('update-pharmacie.', 'PharmacieController@pharmacieUpdate')->name('update.pharmacie');
+    Route::post('update-hopital.', 'HopitalController@hopitalUpdate')->name('update.hopital');
 
     //Route pour les listes dans boostrap table
+    Route::get('liste-hopitals', 'HopitalController@listeHopital')->name('liste-hopitals');
+    Route::get('liste-pharmacies', 'PharmacieController@listePharmacie')->name('liste-pharmacies');
     Route::get('liste-localites', 'LocaliteController@listeLocalite')->name('liste-localites');
     Route::get('liste-categories', 'CategorieController@listeCategorie')->name('liste-categories');
     Route::get('liste-sous-categories', 'CategorieController@listeSousCategorie')->name('liste-sous-categories');

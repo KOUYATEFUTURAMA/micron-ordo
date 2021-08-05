@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+@if(Auth::user()->role == 'Administrateur' or Auth::user()->role == 'Concepteur')
 <script src="{{asset('js/crud.js')}}"></script>
 <script src="{{asset('plugins/jQuery/jquery.validate.min.js')}}"></script>
 <script src="{{asset('plugins/bootstrap-table/dist/bootstrap-table.min.js')}}"></script>
@@ -345,18 +346,18 @@ function lokedAcountAction(url, formData, $ajaxLoader, $table) {
             if (response.code === 1) {
                 $table.bootstrapTable('refresh');
                 $(".bs-modal-lokked-acount").modal("hide");
-               toastr.success(response.msg, "MEDYA KONTROL"); 
+               toastr.success(response.msg, "SMART ORDO); 
             }
             if (response.code === 0) {
-                toastr.warning(response.msg, "MEDYA KONTROL");
+                toastr.warning(response.msg, "SMART ORDO");
             }
             if (response.code === -1) {
-                toastr.error(response.msg, "MEDYA KONTROL");
+                toastr.error(response.msg, "SMART ORDO");
             }
         },
         error: function (err) {
             var res = eval('('+err.responseText+')');
-            toastr.error(res.message, "MEDYA KONTROL");
+            toastr.error(res.message, "SMART ORDO");
             $ajaxLoader.removeClass('spinner');
         },
         beforeSend: function () {
@@ -379,18 +380,18 @@ function passwordResetAction(url, formData, $ajaxLoader, $table) {
             if (response.code === 1) {
                 $table.bootstrapTable('refresh');
                 $(".bs-modal-password-reset").modal("hide");
-               toastr.success(response.msg, "MEDYA KONTROL"); 
+               toastr.success(response.msg, "SMART ORDO"); 
             }
             if (response.code === 0) {
-                toastr.warning(response.msg, "MEDYA KONTROL");
+                toastr.warning(response.msg, "SMART ORDO");
             }
             if (response.code === -1) {
-                toastr.error(response.msg, "MEDYA KONTROL");
+                toastr.error(response.msg, "SMART ORDO");
             }
         },
         error: function (err) {
             var res = eval('('+err.responseText+')');
-            toastr.error(res.message, "MEDYA KONTROL");
+            toastr.error(res.message, "SMART ORDO");
             $ajaxLoader.removeClass('spinner');
         },
         beforeSend: function () {
@@ -402,4 +403,5 @@ function passwordResetAction(url, formData, $ajaxLoader, $table) {
     });
 }
 </script>
+@endif
 @endsection

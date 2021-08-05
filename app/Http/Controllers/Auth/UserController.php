@@ -238,6 +238,48 @@ class UserController extends Controller
             return response()->json(["code" => 0, "msg" => "Ce compte n'existe pas ou a été fermé !", "data" => NULL]);
     }
 
+    public function resetPassword(Request $request){
+        $jsonData = ["code" => 1, "msg" => "Votre mot de passe a été réinitialisé avec succès."];
+
+            $user = User::where('email',$request->get('email'))->firstOrFail();
+
+            $password = "";
+
+            if($user && $user->statut_compte == 1){ 
+                try {
+                     //Geration du passsword à 8 chiffre
+                    $ranges = array(range('a', 'z'), range('A', 'Z'), range(1, 9));
+                    $password = '';
+                    for ($i = 0; $i < 8; $i++) {
+                        $rkey = array_rand($ranges);
+                        $vkey = array_rand($ranges[$rkey]);
+                        $password.= $ranges[$rkey][$vkey];
+                    }
+                    $user->password = bcrypt($password);
+                    $user->updated_by = $user->id;
+                    $user->save();
+                   $to_name = $user->user_name;
+                    $to_email = $user->email;
+                    $data = array("name"=>$user->user_name, "body" => "Vous avez démandé à rénitialiser votre mot de passe. Votre nouveau mot de passse est : ".$password." Votre login reste le même : ".$user->email);
+  
+                    Mail::send('auth/user/mail', $data, function($message) use ($to_name, $to_email) {
+                    $message->to($to_email, $to_name)
+                    ->subject('Rénitialisation de votre mot de passe Smart-Ordo');
+                    $message->from('tranxpert@smartyacademy.com','Smart-Ordo');
+                    });
+
+                    $jsonData["data"] = json_decode($user);
+                    return response()->json($jsonData);
+                } catch (Exception $exc) {
+                   $jsonData["code"] = -1;
+                   $jsonData["data"] = NULL;
+                   $jsonData["msg"] = $exc->getMessage();
+                   return response()->json($jsonData); 
+                }
+            }
+            return response()->json(["code" => 0, "msg" => "Ce compte n'existe pas ou a été fermé !", "data" => NULL]);
+    }
+
     /**
      * Remove the specified resource from storage.
      *

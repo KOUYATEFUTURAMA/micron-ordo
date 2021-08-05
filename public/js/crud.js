@@ -46,18 +46,18 @@ function editAction(methode, url, $formObject, formData, $ajaxSpinner, $table, a
                 }
 
                 $formObject.trigger('eventAdd', [response.data]);
-                toastr.success(response.msg, "MEDYA KONTROL");
+                toastr.success(response.msg, "SMART ORDO");
             }
             if (response.code === 0) {
-                toastr.warning(response.msg, "MEDYA KONTROL");
+                toastr.warning(response.msg, "SMART ORDO");
             }
             if (response.code === -1) {
-                toastr.error(response.msg, "MEDYA KONTROL");
+                toastr.error(response.msg, "SMART ORDO");
             }
          },
         error: function (err) {
             var res = eval('('+err.responseText+')');
-            toastr.error(res.message, "MEDYA KONTROL");
+            toastr.error(res.message, "SMART ORDO");
             $formObject.removeAttr("disabled");
             $ajaxSpinner.removeClass('spinner');
         },
@@ -82,18 +82,18 @@ function deleteAction(url, formData, $ajaxLoader, $table) {
             if (response.code === 1) {
                 $table.bootstrapTable('refresh');
                 $(".bs-modal-delete").modal("hide");
-               toastr.success(response.msg, "MEDYA KONTROL"); 
+               toastr.success(response.msg, "SMART ORDO"); 
             }
             if (response.code === 0) {
-                toastr.warning(response.msg, "MEDYA KONTROL");
+                toastr.warning(response.msg, "SMART ORDO");
             }
             if (response.code === -1) {
-                toastr.error(response.msg, "MEDYA KONTROL");
+                toastr.error(response.msg, "SMART ORDO");
             }
         },
         error: function (err) {
             var res = eval('('+err.responseText+')');
-            toastr.error(res.message, "MEDYA KONTROL");
+            toastr.error(res.message, "SMART ORDO");
             $ajaxLoader.removeClass('spinner');
         },
         beforeSend: function () {

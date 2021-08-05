@@ -225,13 +225,14 @@ var KTLogin = function() {
         $('#kt_login_forgot_submit').on('click', function (e) {
             e.preventDefault();
             validation.validate().then(function(status) {
-		    if (status == 'Valid') {
-                        $.ajax({
-                            type: 'post',
-                            dataType: 'json',
-                            url: "/forget-password",
-                            data: $('#kt_login_forgot_form').serialize(),
-                            success: function (response)
+		    if(status == 'Valid') {
+                $.ajax({
+
+                    type: 'post',
+                    dataType: 'json',
+                    url: "/password-reset",
+                    data: $('#kt_login_forgot_form').serialize(),
+                        success: function (response)
                             {
                                 if(response.code === 1){
                                     Swal.fire({

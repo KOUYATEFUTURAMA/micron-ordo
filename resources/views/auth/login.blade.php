@@ -99,22 +99,21 @@
 							<!--begin::Forgot-->
 							<div class="login-form login-forgot">
 								<!--begin::Form-->
-								<form class="form w-xxl-550px rounded-lg p-20" novalidate="novalidate" id="kt_login_forgot_form" style="background-color: #fff;">
-									<!--begin::Title-->
-                                                                        @csrf
+								<form class="form w-xxl-550px rounded-lg p-20" novalidate="novalidate" id="kt_login_forgot_form"  style="background-color: #fff;">
+                                            @csrf
 									<div class="pb-13 pt-lg-0 pt-5">
-                                                                            <h3 class="font-weight-bolder text-dark font-size-h4 font-size-h1-lg">Smart-Ordo</h3>
+                                        <h3 class="font-weight-bolder text-dark font-size-h4 font-size-h1-lg">Smart-Ordo</h3>
 										<p class="text-muted font-weight-bold font-size-h4">Entrez votre adresse mail puis envoyer pour recevoir votre nouveau mot de passe</p>
 									</div>
 									<!--end::Title-->
 									<!--begin::Form group-->
 									<div class="form-group">
-										<input class="form-control form-control-solid h-auto p-6 rounded-lg font-size-h6" type="email" placeholder="E-mail" name="email" autocomplete="off" required/>
+										<input class="form-control form-control-solid h-auto p-6 rounded-lg font-size-h6" type="email" placeholder="E-mail" name="email" required/>
 									</div>
 									<!--end::Form group-->
 									<!--begin::Form group-->
 									<div class="form-group d-flex flex-wrap pb-lg-0">
-                                                                            <button type="submit" id="kt_login_forgot_submit" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-4">Envoyer</button>
+                                        <button type="submit" id="kt_login_forgot_submit" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-4">Envoyer</button>
 										<button type="button" id="kt_login_forgot_cancel" class="btn btn-light-primary font-weight-bolder font-size-h6 px-8 py-4 my-3">Annuler</button>
 									</div>
 									<div class="font-size-h6 font-weight-bolder order-2 order-md-1 py-2 py-md-0">
