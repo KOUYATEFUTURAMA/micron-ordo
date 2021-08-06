@@ -31,11 +31,16 @@ Route::namespace('Parametre')->middleware('auth')->name('parametre.')->prefix('p
     Route::resource('categories', 'CategorieController');
     Route::resource('pharmacies', 'PharmacieController');
     Route::resource('hopitals', 'HopitalController');
+    Route::resource('modes', 'ModeAdministrationController');
+    Route::resource('emballages', 'EmballageController');
+    Route::resource('formes', 'FormeController');
+    Route::resource('medicaments', 'MedicamentController');
   
     //Autres rooutes  pharmacies.update
     Route::get('sous-categorie', 'CategorieController@sousCategorie')->name('categories.sous-categorie');
     Route::post('update-pharmacie.', 'PharmacieController@pharmacieUpdate')->name('update.pharmacie');
     Route::post('update-hopital.', 'HopitalController@hopitalUpdate')->name('update.hopital');
+    Route::post('update-medicament.', 'MedicamentController@medicamentUpdate')->name('update.medicament');
 
     //Route pour les listes dans boostrap table
     Route::get('liste-hopitals', 'HopitalController@listeHopital')->name('liste-hopitals');
@@ -43,6 +48,13 @@ Route::namespace('Parametre')->middleware('auth')->name('parametre.')->prefix('p
     Route::get('liste-localites', 'LocaliteController@listeLocalite')->name('liste-localites');
     Route::get('liste-categories', 'CategorieController@listeCategorie')->name('liste-categories');
     Route::get('liste-sous-categories', 'CategorieController@listeSousCategorie')->name('liste-sous-categories');
+    Route::get('liste-modes', 'ModeAdministrationController@listeModeAdministation')->name('liste-modes');
+    Route::get('liste-emballages', 'EmballageController@listeEmballage')->name('liste-emballages');
+    Route::get('liste-formes', 'FormeController@listeForme')->name('liste-formes');
+    Route::get('liste-medicaments', 'MedicamentController@listeMedicament')->name('liste-medicaments');
+
+    //Routes paramétrés 
+    Route::get('liste-sous-categories-by-categorie/{categorie}', 'CategorieController@listeSousCategoriesByCategorie');
 });
 
 //les routes du module Auth 
