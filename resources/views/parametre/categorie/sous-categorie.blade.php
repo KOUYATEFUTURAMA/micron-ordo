@@ -58,15 +58,15 @@
                         <div class="col-sm-12">
                             <table id="table" class="table table-bordered table-hover table-checkable dataTable no-footer dtr-inline"
                                     data-pagination="true"
-                                    data-search="false"
+                                    data-search="true"
                                     data-toggle="table"
                                     data-url="{{url('parametre',['action'=>'liste-sous-categories'])}}"
                                     data-unique-id="id"
                                     data-show-toggle="false">
                                 <thead>
                                     <tr role="row">
-                                        <th data-field="libelle_categorie">Nom de la sous cat&eacute;gorie</th>
-                                        <th data-field="categorie.libelle_categorie">Cat&eacute;gorie</th>
+                                        <th data-field="libelle_categorie" data-searchable="true">Nom de la sous cat&eacute;gorie</th>
+                                        <th data-field="categorie.libelle_categorie" data-searchable="true">Cat&eacute;gorie</th>
                                         <th data-field="id" data-formatter="optionFormatter" data-width="100px" data-align="center">Option</th>
                                     </tr>
                                 </thead>

@@ -38,7 +38,7 @@
                                             <th data-field="sous_categorie.libelle_categorie">Sous cat&eacute;gorie</th>
                                             <th data-field="forme.libelle_forme">Forme</th>
                                             <th data-field="emballage.libelle_emballage">Emballage</th>
-                                            <th data-field="mode.libelle_mode">Mode</th>
+                                            <th data-field="mode.libelle_mode" data-searchable="true">Mode</th>
                                             <th data-field="description" data-visible="false">Description</th>
                                             <th data-field="numero_autorisation" data-visible="false">N° Autorisation</th>
                                             <th data-field="image" data-formatter="imageFormatter">Image</th>

@@ -54,7 +54,7 @@
                                     data-show-toggle="false">
                                 <thead>
                                     <tr role="row">
-                                        <th data-field="libelle_localite">Nom de la localit&eacute;</th>
+                                        <th data-field="libelle_localite" data-searchable="true">Nom de la localit&eacute;</th>
                                         <th data-field="id" data-formatter="optionFormatter" data-width="100px" data-align="center">Option</th>
                                     </tr>
                                 </thead>

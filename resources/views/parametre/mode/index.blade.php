@@ -54,7 +54,7 @@
                                     data-show-toggle="false">
                                 <thead>
                                     <tr role="row">
-                                        <th data-field="libelle_mode">Nom du mode</th>
+                                        <th data-field="libelle_mode" data-searchable="true">Nom du mode</th>
                                         <th data-field="id" data-formatter="optionFormatter" data-width="100px" data-align="center">Option</th>
                                     </tr>
                                 </thead>

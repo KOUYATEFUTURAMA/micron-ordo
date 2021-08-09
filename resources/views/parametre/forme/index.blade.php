@@ -54,7 +54,7 @@
                                     data-show-toggle="false">
                                 <thead>
                                     <tr role="row">
-                                        <th data-field="libelle_forme">Nom de la forme</th>
+                                        <th data-field="libelle_forme" data-searchable="true">Nom de la forme</th>
                                         <th data-field="id" data-formatter="optionFormatter" data-width="100px" data-align="center">Option</th>
                                     </tr>
                                 </thead>
