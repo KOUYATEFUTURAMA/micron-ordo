@@ -21,14 +21,12 @@ class CreateUsersTable extends Migration
             $table->string('role');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->integer('hopital_id')->unsigned()->nullable();
-            $table->integer('pharmacie_id')->unsigned()->nullable();
             $table->datetime('last_login_at')->nullable();
             $table->string('last_login_ip')->nullable();
             $table->string('confirmation_token')->nullable();
             $table->boolean('statut_compte')->default(1);
             $table->boolean('etat_user')->default(0);
-             $table->dateTime('deleted_at')->nullable();
+            $table->dateTime('deleted_at')->nullable();
             $table->integer('deleted_by')->unsigned()->nullable();
             $table->integer('updated_by')->unsigned()->nullable();
             $table->integer('created_by')->unsigned()->nullable();

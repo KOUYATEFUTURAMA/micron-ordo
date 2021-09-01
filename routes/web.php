@@ -24,7 +24,7 @@ Route::post('/update_password', 'Auth\RegisterController@updatePassword')->name(
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
-//les routes du module Parrametre 
+//les routes du module Parrametre
 Route::namespace('Parametre')->middleware('auth')->name('parametre.')->prefix('parametre')->group(function () {
     //Route resources
     Route::resource('localites', 'LocaliteController');
@@ -35,7 +35,8 @@ Route::namespace('Parametre')->middleware('auth')->name('parametre.')->prefix('p
     Route::resource('emballages', 'EmballageController');
     Route::resource('formes', 'FormeController');
     Route::resource('medicaments', 'MedicamentController');
-  
+    Route::resource('specialites', 'SpecialiteController');
+
     //Autres rooutes  pharmacies.update
     Route::get('sous-categorie', 'CategorieController@sousCategorie')->name('categories.sous-categorie');
     Route::post('update-pharmacie.', 'PharmacieController@pharmacieUpdate')->name('update.pharmacie');
@@ -52,21 +53,29 @@ Route::namespace('Parametre')->middleware('auth')->name('parametre.')->prefix('p
     Route::get('liste-emballages', 'EmballageController@listeEmballage')->name('liste-emballages');
     Route::get('liste-formes', 'FormeController@listeForme')->name('liste-formes');
     Route::get('liste-medicaments', 'MedicamentController@listeMedicament')->name('liste-medicaments');
+    Route::get('liste-specialites', 'SpecialiteController@listeSpecialite')->name('liste-specialites');
 
-    //Routes paramétrés 
+    //Routes paramétrés
     Route::get('liste-sous-categories-by-categorie/{categorie}', 'CategorieController@listeSousCategoriesByCategorie');
 });
 
-//les routes du module Auth 
+Route::namespace('Application')->middleware('auth')->name('application.')->prefix('application')->group(function () {
+    Route::resource('medecins', 'MedecinController');
+
+    //Route pour les listes dans boostrap table
+    Route::get('liste-medecins', 'MedecinController@listeMedecin')->name('liste-medecins');
+});
+
+//les routes du module Auth
 Route::namespace('Auth')->middleware('auth')->name('auth.')->prefix('auth')->group(function () {
     //Route resources
     Route::resource('users', 'UserController');
-    
+
     //Autres routes
     Route::get('profil-user', 'UserController@profil')->name('user.profil');
     Route::put('profil/update/{user}', 'UserController@updateProfil')->name('user.profil.update');
     Route::post('password-reset-by-admin', 'UserController@resetPasswordManualy')->name('user.password-reset-by-admin');
-    
+
     //Route pour les listes dans boostrap table resetPasswordManualy
     Route::get('liste-users', 'UserController@listeUser')->name('liste-users');
 });

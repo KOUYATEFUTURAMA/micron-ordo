@@ -32,15 +32,15 @@ class UserController extends Controller
     public function listeUser() {
         $users = User::select('users.*',DB::raw('DATE_FORMAT(users.last_login_at, "%d-%m-%Y &agrave; %H:%i") as last_login'))
                         ->orderBy('users.user_name', 'ASC')
-                        ->where([['users.deleted_at', NULL],['users.id','!=' ,1]])
+                        ->where([['users.deleted_at', NULL],['users.id','!=' ,1],['users.role','!=' ,"Medecin"]])
                         ->get();
 
        $jsonData["rows"] = $users->toArray();
        $jsonData["total"] = $users->count();
-       
+
         return response()->json($jsonData);
     }
-    
+
     public function profil() {
         $user = User::select('users.*',DB::raw('DATE_FORMAT(users.last_login_at, "%d-%m-%Y &agrave; %H:%i") as last_login'),DB::raw('DATE_FORMAT(users.created_at, "%d-%m-%Y &agrave; %H:%i") as created'))
                 ->where('users.id', Auth::user()->id)
@@ -64,30 +64,32 @@ class UserController extends Controller
         if ($request->isMethod('post') && $request->input('user_name')) {
 
             $data = $request->all();
-          
+
             $User = User::where('email', $data['email'])->first();
-            
+
             if($User){
                 return response()->json(["code" => 0, "msg" => "Ce compte existe d&eacute;j&agrave;. V&eacute;rifier l'adresse mail", "data" => NULL]);
             }
-            
+
             try {
-          
+
                     $user = new User;
                     $user->user_name = $data['user_name'];
                     $user->role = $data['role'];
                     $user->contact = $data['contact'];
                     $user->email = $data['email'];
-                    $user->password = bcrypt(Str::random(10)); 
+                    $user->password = bcrypt(Str::random(10));
                     $user->confirmation_token = str_replace('/', '', bcrypt(Str::random(16)));
                     $user->created_by = Auth::user()->id;
                     $user->save();
-                    
+
                     if($user){
-                        $user->notify(new UserRegistred()); 
+                        $user->notify(new UserRegistred());
+                    }else{
+                        return response()->json(["code" => 0, "msg" => "Saisie invalide", "data" => NULL]);
                     }
-                    
-                    
+
+
                     $jsonData["data"] = json_decode($user);
                     return response()->json($jsonData);
                 } catch (Exception $exc) {
@@ -95,7 +97,7 @@ class UserController extends Controller
                     $jsonData["data"] = NULL;
                     $jsonData["msg"] = $exc->getMessage();
                     return response()->json($jsonData);
-                } 
+                }
         }
         return response()->json(["code" => 0, "msg" => "Saisie invalide", "data" => NULL]);
     }
@@ -112,15 +114,15 @@ class UserController extends Controller
         $jsonData = ["code" => 1, "msg" => "Modification effectu&eacute;e avec succ&egrave;s."];
 
         $user = User::find($id);
-        
+
         if ($user) {
             $data = $request->all();
-            
+
             try {
-              
+
                 if($data['email'] != $user->email){
                     $User = User::where('email', $data['email'])->first();
-            
+
                     if($User){
                         return response()->json(["code" => 0, "msg" => "Ce compte existe d&eacute;j&agrave;. V&eacute;rifier l'adresse mail", "data" => NULL]);
                     }
@@ -128,23 +130,23 @@ class UserController extends Controller
                     $user->role = $data['role'];
                     $user->contact = $data['contact'];
                     $user->email = $data['email'];
-                    $user->password = bcrypt(Str::random(10)); 
+                    $user->password = bcrypt(Str::random(10));
                     $user->confirmation_token = str_replace('/', '', bcrypt(Str::random(16)));
-                    
+
                     $user->updated_by = Auth::user()->id;
-                    $user->save(); 
-                    
-                    $user->notify(new UserRegistred()); 
+                    $user->save();
+
+                    $user->notify(new UserRegistred());
                 }else{
                     $user->user_name = $data['user_name'];
                     $user->role = $data['role'];
                     $user->contact = $data['contact'];
                     $user->email = $data['email'];
-                    
+
                     $user->updated_by = Auth::user()->id;
-                    $user->save(); 
+                    $user->save();
                 }
-                
+
                 $jsonData["data"] = json_decode($user);
                 return response()->json($jsonData);
             } catch (Exception $exc) {
@@ -160,20 +162,20 @@ class UserController extends Controller
     public function updateProfil(Request $request, $id){
 
         $user = User::find($id);
-       
+
         if($user){
             $data = $request->all();
-                
+
             $validator = Validator::make($data,[
                 'user_name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:255'],
                 'contact' => ['required', 'string', 'max:255']
             ]);
-       
+
             if($validator->fails()) {
                 return Redirect::back()->withErrors($validator);
             }
-           
+
             $user->user_name = $data['user_name'];
             $user->email = $data['email'];
             $user->contact = $data['contact'];
@@ -187,23 +189,23 @@ class UserController extends Controller
                 if($validator->fails()) {
                     return Redirect::back()->withErrors($validator);
                 }
-               $user->password = bcrypt($data['password']);  
+               $user->password = bcrypt($data['password']);
             }
 
             $user->save();
-            
+
             return redirect()->route('auth.user.profil');
        }
     }
 
     //Réinitialisation du mot de passe par l'administrateur
     public function resetPasswordManualy(Request $request){
-   
+
          $jsonData = ["code" => 1, "msg" => " Opération effectuée avec succès"];
-            
+
             $user = User::find($request->get('userId'));
             $password = "";
-            if($user && $user->statut_compte == 1){ 
+            if($user && $user->statut_compte == 1){
                 try {
                      //Geration du passsword à 8 chiffre
                     $ranges = array(range('a', 'z'), range('A', 'Z'), range(1, 9));
@@ -219,7 +221,7 @@ class UserController extends Controller
                    $to_name = $user->user_name;
                     $to_email = $user->email;
                     $data = array("name"=>$user->user_name, "body" => "Vous avez démandé à rénitialiser votre mot de passe. Votre nouveau mot de passse est : ".$password." Votre login reste le même : ".$user->email);
-  
+
                     Mail::send('auth/user/mail', $data, function($message) use ($to_name, $to_email) {
                     $message->to($to_email, $to_name)
                     ->subject('Rénitialisation de votre mot de passe Smart-Ordo');
@@ -232,7 +234,7 @@ class UserController extends Controller
                    $jsonData["code"] = -1;
                    $jsonData["data"] = NULL;
                    $jsonData["msg"] = $exc->getMessage();
-                   return response()->json($jsonData); 
+                   return response()->json($jsonData);
                 }
             }
             return response()->json(["code" => 0, "msg" => "Ce compte n'existe pas ou a été fermé !", "data" => NULL]);
@@ -245,7 +247,7 @@ class UserController extends Controller
 
             $password = "";
 
-            if($user && $user->statut_compte == 1){ 
+            if($user && $user->statut_compte == 1){
                 try {
                      //Geration du passsword à 8 chiffre
                     $ranges = array(range('a', 'z'), range('A', 'Z'), range(1, 9));
@@ -261,7 +263,7 @@ class UserController extends Controller
                    $to_name = $user->user_name;
                     $to_email = $user->email;
                     $data = array("name"=>$user->user_name, "body" => "Vous avez démandé à rénitialiser votre mot de passe. Votre nouveau mot de passse est : ".$password." Votre login reste le même : ".$user->email);
-  
+
                     Mail::send('auth/user/mail', $data, function($message) use ($to_name, $to_email) {
                     $message->to($to_email, $to_name)
                     ->subject('Rénitialisation de votre mot de passe Smart-Ordo');
@@ -274,7 +276,7 @@ class UserController extends Controller
                    $jsonData["code"] = -1;
                    $jsonData["data"] = NULL;
                    $jsonData["msg"] = $exc->getMessage();
-                   return response()->json($jsonData); 
+                   return response()->json($jsonData);
                 }
             }
             return response()->json(["code" => 0, "msg" => "Ce compte n'existe pas ou a été fermé !", "data" => NULL]);
@@ -290,13 +292,13 @@ class UserController extends Controller
     {
         $jsonData = ["code" => 1, "msg" => " Op&eacute;ration effectu&eacute;e avec succ&egrave;s."];
         $user = User::find($id);
-        
+
         if($user){
             try {
                 if($user->statut_compte == 1){
                       $user->statut_compte = FALSE;
                 }else{
-                       $user->statut_compte = TRUE; 
+                       $user->statut_compte = TRUE;
                 }
                 $user->save();
                 $jsonData["data"] = json_decode($user);

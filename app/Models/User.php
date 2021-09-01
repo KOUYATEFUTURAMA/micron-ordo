@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Application\Medecin;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
@@ -35,7 +36,7 @@ class User extends Authenticatable
         'created_by',
         'password',
     ];
-    
+
     protected $dates = [
         'deleted_at',
         'last_login_at'
@@ -60,4 +61,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'last_login_at' => 'datetime',
     ];
+
+     /**
+     * Get the medecin associated with the user.
+     */
+    public function medecin()
+    {
+        return $this->hasOne(Medecin::class);
+    }
 }

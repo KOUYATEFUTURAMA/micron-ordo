@@ -1,7 +1,7 @@
 <li class="menu-item menu-item-submenu {{request()->is('parametre/*') ? 'menu-item-here menu-item-open menu-item-active' : ''}}" aria-haspopup="true" data-menu-toggle="hover">
     <a href="javascript:;" class="menu-link menu-toggle">
         <span class="svg-icon menu-icon">
-            <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg--> 
+            <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
             <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:D:\xampp\htdocs\keenthemes\legacy\keen\theme\demo1\dist/../src/media/svg/icons\Home\Key.svg-->
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -70,6 +70,14 @@
                         <span></span>
                     </i>
                     <span class="menu-text">Sous cat&eacute;gorie</span>
+                </a>
+            </li>
+            <li class="menu-item {{Route::currentRouteName() === 'parametre.specialites.index' ? 'menu-item-active' : ''}}" aria-haspopup="true">
+                <a href="{{route('parametre.specialites.index')}}" class="menu-link">
+                    <i class="menu-bullet menu-bullet-dot">
+                        <span></span>
+                    </i>
+                    <span class="menu-text">Sp&eacute;cilit&eacute;</span>
                 </a>
             </li>
             <li class="menu-item {{Route::currentRouteName() === 'parametre.medicaments.index' ? 'menu-item-active' : ''}}" aria-haspopup="true">
